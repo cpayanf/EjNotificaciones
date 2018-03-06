@@ -11,6 +11,9 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
+
+import com.google.firebase.iid.FirebaseInstanceId;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,20 +26,13 @@ public class MainActivity extends AppCompatActivity {
 
 	public void CrearNotificacion(View v)
 	{
-		Intent myIntent = new Intent(this, MainActivity.class);
-		PendingIntent myPendingInt = PendingIntent.getActivity(this, 0, myIntent, PendingIntent.FLAG_ONE_SHOT);
+		String lsToken = FirebaseInstanceId.getInstance().getToken();
 
-		Uri NotifSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+		enviarToken(lsToken);
+	}
 
-		NotificationCompat.Builder myNotif = new NotificationCompat.Builder(this)
-				.setSmallIcon(R.mipmap.ic_launcher)
-				.setContentTitle("Atencion")
-				.setContentText("Hay cosas por ver")
-				.setSound(NotifSound)
-				.setContentIntent(myPendingInt)
-				.setAutoCancel(true);
-
-		NotificationManager myNotifManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-		myNotifManager.notify(0, myNotif.build());
+	private void enviarToken(String psToken)
+	{
+		Toast.makeText(this, psToken, Toast.LENGTH_SHORT).show();
 	}
 }
